@@ -42,6 +42,13 @@
       right: 20px;
       z-index: 100;
     }
+    .nav-link.active {
+      background-color: #ffffff;
+      color: #16a34a;
+      border-radius: 8px;
+      padding: 4px 8px;
+      font-weight: bold;
+    }
   </style>
 </head>
 <body class="bg-white text-gray-800">
@@ -51,18 +58,15 @@
     <div class="spinner"></div>
   </div>
 
-  <!-- Navbar -->
-  <header class="bg-green-400 shadow-md" data-aos="fade-down">
-    <div class="max-w-7xl mx-auto px-4 py-4 flex flex-col md:flex-row justify-between items-center gap-4">
-      <h1 class="text-2xl font-bold text-white">Riz-To Snack</h1>
-      <nav class="flex flex-wrap justify-center md:justify-end gap-4 text-white font-semibold border border-white px-4 py-2 rounded-lg">
-        <a href="#beranda" class="hover:underline">Beranda</a>
-        <a href="#produk" class="hover:underline">Produk</a>
-        <a href="#tentang" class="hover:underline">Tentang</a>
-        <a href="#kontak" class="hover:underline">Kontak</a>
-      </nav>
-    </div>
-  </header>
+  <!-- Sidebar Navigasi Kanan -->
+  <div class="fixed right-0 top-1/2 -translate-y-1/2 bg-green-400 text-white rounded-l-lg py-4 px-3 shadow-lg z-40">
+    <nav class="flex flex-col gap-4 font-semibold text-sm text-center">
+      <a href="#beranda" class="nav-link hover:underline" data-target="beranda">Beranda</a>
+      <a href="#produk" class="nav-link hover:underline" data-target="produk">Produk</a>
+      <a href="#tentang" class="nav-link hover:underline" data-target="tentang">Tentang</a>
+      <a href="#kontak" class="nav-link hover:underline" data-target="kontak">Kontak</a>
+    </nav>
+  </div>
 
   <!-- Header Image -->
   <div class="w-full h-[250px] sm:h-[350px] md:h-[500px] overflow-hidden">
@@ -122,7 +126,6 @@
   <!-- Bagian Tambahan ala AiraFood -->
   <section class="bg-pink-200 py-12 px-4">
     <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center gap-10">
-      <!-- Logo dan Visi -->
       <div class="md:w-1/2 text-center md:text-left">
         <h2 class="text-5xl font-bold text-red-600 mb-2">Riz-to Snack</h2>
         <p class="text-xl italic text-gray-700 mb-4">Snack Lokal Pilihan</p>
@@ -130,7 +133,6 @@
           Menjadi produsen snack rumahan terbaik dengan bahan lokal berkualitas dan rasa yang otentik
         </p>
       </div>
-      <!-- Deskripsi -->
       <div class="md:w-1/2 text-gray-800 text-base leading-relaxed">
         <p class="mb-4">
           Riz-To Snack selalu mengutamakan kepuasan pelanggan, menghadirkan produk yang aman, halal, dan lezat. Dengan proses produksi yang higienis dan pengawasan ketat, kami percaya bahwa kualitas adalah prioritas utama.
@@ -165,6 +167,7 @@
   <!-- Script -->
   <script>
     AOS.init({ duration: 1000, once: true });
+
     window.addEventListener('load', () => {
       const preloader = document.getElementById('preloader');
       preloader.style.opacity = '0';
@@ -172,6 +175,27 @@
       setTimeout(() => {
         preloader.style.display = 'none';
       }, 500);
+    });
+
+    // Scrollspy effect
+    const sections = document.querySelectorAll("section[id]");
+    const navLinks = document.querySelectorAll(".nav-link");
+
+    window.addEventListener("scroll", () => {
+      let current = "";
+      sections.forEach((section) => {
+        const sectionTop = section.offsetTop - 100;
+        if (pageYOffset >= sectionTop) {
+          current = section.getAttribute("id");
+        }
+      });
+
+      navLinks.forEach((link) => {
+        link.classList.remove("active");
+        if (link.getAttribute("data-target") === current) {
+          link.classList.add("active");
+        }
+      });
     });
   </script>
 </body>
